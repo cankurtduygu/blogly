@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import type { iNavLink } from "./Navbar.types";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../features/authSlice";
+import useAuthCall from "../../hooks/useAuthCall";
 
 const Navbar = () => {
   const navLinks: iNavLink[] = [
@@ -12,6 +15,8 @@ const Navbar = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const currentUser = useSelector(selectCurrentUser);
+  const { signOut } = useAuthCall();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +30,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 bg-slate-900 w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 ${isScrolled ? "bg-slate-50/80 shadow-md text-slate-900 backdrop-blur-lg py-3 md:py-4" : "py-4 md:py-6"}`}
+        className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 ${isScrolled ? "bg-slate-50/80 shadow-md text-slate-900 backdrop-blur-lg py-3 md:py-4" : "bg-slate-900 py-4 md:py-6"}`}
       >
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
@@ -73,18 +78,39 @@ const Navbar = () => {
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg> */}
-          <Link
-            to={"/sign-in"}
-            className={`ml-4 transition-all duration-500 ${isScrolled ? "text-slate-900" : "text-white"}`}
-          >
-            Sign In
-          </Link>
-          <Link
-            to={"/sign-up"}
-            className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-indigo-500 hover:bg-indigo-600" : "bg-white text-slate-900"}`}
-          >
-            Get Started
-          </Link>
+          {currentUser ? (
+            <div>
+              <Link
+                to={`/`}
+                onClick={signOut}
+                className={`ml-4 transition-all duration-500 ${isScrolled ? "text-slate-900" : "text-white"}`}
+              >
+                Sign Out
+              </Link>
+
+              <Link
+                to={"/"}
+                className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-indigo-500 hover:bg-indigo-600" : "bg-white text-slate-900"}`}
+              >
+                Profile
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <Link
+                to={"/sign-in"}
+                className={`ml-4 transition-all duration-500 ${isScrolled ? "text-slate-900" : "text-white"}`}
+              >
+                Sign In
+              </Link>
+              <Link
+                to={"/sign-up"}
+                className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-indigo-500 hover:bg-indigo-600" : "bg-white text-slate-900"}`}
+              >
+                Get Started
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -128,20 +154,46 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
+          {currentUser ? (
+            <div className="flex flex-col items-center gap-4">
+              <Link
+                to={"/"}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  signOut();
+                }}
+                className="transition-all duration-500 text-slate-500 hover:text-indigo-500"
+              >
+                Sign Out
+              </Link>
 
-          <Link
-            to={"/sign-in"}
-            className="transition-all duration-500 text-slate-500 hover:text-indigo-500"
-          >
-            Sign In
-          </Link>
+              <Link
+                to={"/profile"}
+                onClick={() => setIsMenuOpen(false)}
+                className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-full transition-all duration-500"
+              >
+                Profile
+              </Link>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-4">
+              <Link
+                to={"/sign-in"}
+                onClick={() => setIsMenuOpen(false)}
+                className="transition-all duration-500 text-slate-500 hover:text-indigo-500"
+              >
+                Sign In
+              </Link>
 
-          <Link
-            to={"/sign-up"}
-            className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-full transition-all duration-500"
-          >
-            Get Started
-          </Link>
+              <Link
+                to={"/sign-up"}
+                onClick={() => setIsMenuOpen(false)}
+                className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-full transition-all duration-500"
+              >
+                Get Started
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
     </>

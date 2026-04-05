@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 import heroImg from "../../assets/heroimg.png";
 
 export default function Hero() {
   return (
     <div>
-      <main className="flex flex-col max-md:gap-20 md:flex-row pb-20 items-center justify-between mt-25 px-4 md:px-16 lg:px-24 xl:px-32">
+      <main className="flex flex-col max-md:gap-20 md:flex-row pb-20 items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32">
         <div className="flex flex-col items-center md:items-start">
           <h1 className="text-center md:text-left text-6xl leading-11.5 md:text-5xl md:leading-17 font-semibold max-w-xl text-slate-900">
             A place to
@@ -14,9 +15,12 @@ export default function Hero() {
             Read and share articles on technology, life, and more.
           </p>
           <div className="flex items-center gap-4 mt-8 text-sm">
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95 transition rounded-md px-7 h-11">
+            <Link
+              to="/sign-up"
+              className="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95 transition rounded-md px-7 h-11"
+            >
               Get started
-            </button>
+            </Link>
             <button className="flex items-center gap-2 border border-slate-600 active:scale-95 hover:bg-white/10 transition text-slate-600 rounded-md px-6 h-11">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,11 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signUpSchema } from "../lib/schemas";
 import type z from "zod";
+import useAuthCall from "../hooks/useAuthCall";
+import { toast } from "react-toastify";
 
 export default function SignUpForm() {
   type SignUpFormData = z.infer<typeof signUpSchema>;
+  const { signUp } = useAuthCall();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -23,8 +27,15 @@ export default function SignUpForm() {
     },
   });
 
-  async function onSubmit(_userCredentials: SignUpFormData) {
-    console.log("Form geçti! ✅", _userCredentials);
+  async function onSubmit(userCredentials: SignUpFormData) {
+    const { confirmPassword, ...credentials } = userCredentials;
+    try {
+      await signUp(credentials);
+      toast.success("Sign up successful");
+      navigate("/");
+    } catch {
+      toast.error("Sign up failed");
+    }
   }
 
   return (
@@ -307,14 +318,14 @@ export default function SignUpForm() {
             disabled={isSubmitting}
             className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:bg-indigo-600 transition-colors"
           >
-           {isSubmitting ? (
-            <span className="flex items-center justify-center gap-2">
-              <span className="loading loading-spinner loading-xs" />
-              Creating account...
-            </span>
-          ) : (
-            'Create account'
-          )}
+            {isSubmitting ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="loading loading-spinner loading-xs" />
+                Creating account...
+              </span>
+            ) : (
+              "Create account"
+            )}
           </button>
           <p className="text-slate-500 text-sm mt-4">
             Already have an account?{" "}

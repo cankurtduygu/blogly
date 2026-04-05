@@ -1,0 +1,61 @@
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import { cleanAuth, updateUserInfo } from "../features/authSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import useAxios from "./useAxios";
+import type { SignInFormData, SignUpCredentials } from "../lib/schemas";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const useAuthCall = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { axiosWithToken } = useAxios();
+
+  const signIn = async (userCredentials: SignInFormData) => {
+    try {
+      const { data } = await axios.post(
+        `${BASE_URL}auth/login`,
+        userCredentials,
+      );
+      console.log(data);
+      navigate("/");
+      dispatch(updateUserInfo(data));
+
+      toast.success("Login başarılı");
+    } catch (error) {
+      toast.error("Login başarısız");
+      console.log("error:", error);
+    }
+  };
+
+  const signUp = async (userCredentials: SignUpCredentials) => {
+    const { data } = await axios.post(`${BASE_URL}users`, userCredentials);
+    dispatch(updateUserInfo(data));
+    return data;
+  };
+
+  const signOut = async () => {
+    await new Promise((res) => setTimeout(res, 2000));
+
+    try {
+      await axiosWithToken(`auth/logout`);
+
+      dispatch(cleanAuth());
+      navigate("/");
+    } catch (error) {
+      const err = error as {
+        response?: { data?: { message?: string } };
+        message?: string;
+      };
+      toast.error(
+        err.response?.data?.message || err.message || "Logout Failed",
+      );
+    }
+  };
+
+  return { signIn, signUp, signOut };
+};
+
+export default useAuthCall;
