@@ -1,9 +1,21 @@
+import { useEffect } from "react";
+import useBlogCall from "../hooks/useBlogCall";
+import Blogs from "./Blogs";
 import LatestBlog from "./LatestBlog";
 import MostReadBlog from "./MostReadBlog";
 
 export default function BlogSection() {
+  const { getLatestBlog, getMostReadBlogs, getCategories, getBlogs } = useBlogCall();
+
+  useEffect(() => {
+    getLatestBlog();
+    getMostReadBlogs();
+    getCategories();
+    getBlogs();
+  }, []);
+
   return (
-    <div className="mt-8 px-4 md:px-16 lg:px-24 xl:px-32">
+    <div className="mt-8 max-w-7xl mx-auto px-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
         {/* The Latest */}
         <div>
@@ -23,6 +35,7 @@ export default function BlogSection() {
       </div>
 
       <hr className="border-slate-200 mt-10" />
+      <Blogs />
     </div>
   );
 }

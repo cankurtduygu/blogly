@@ -1,15 +1,8 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectTopBlogs } from "../features/blogSlice";
-import useBlogCall from "../hooks/useBlogCall";
 
 export default function MostReadBlog() {
-  const { getMostReadBlogs } = useBlogCall();
   const topBlogs = useSelector(selectTopBlogs);
-
-  useEffect(() => {
-    getMostReadBlogs();
-  }, []);
 
   if (!topBlogs.length) return null;
 

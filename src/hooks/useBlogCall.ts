@@ -10,6 +10,7 @@ import {
   fetchMostReadBlogsSuccess,
   //   fetchBlogByIdSuccess,
   fetchFinish,
+  fetchCategoriesSuccess,
 } from "../features/blogSlice";
 import { useSelector } from "react-redux";
 
@@ -39,23 +40,25 @@ const useBlogCall = () => {
     }
   };
 
-  //   const getCategories = async () => {
-  //     try {
-  //       dispatch(fetchStart());
+  const getCategories = async () => {
+    try {
+      dispatch(fetchStart());
 
-  //       const { data } = await axios(`${BASE_URL}categories`, {
-  //         headers: {
-  //           Authorization: `Token ${token}`,
-  //         },
-  //       });
+      const { data } = await axios(`${BASE_URL}categories`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
 
-  //       dispatch(fetchCategoriesSuccess(data));
-  //       dispatch(fetchFinish());
-  //     } catch (error) {
-  //       dispatch(fetchFail(error.message));
-  //       console.log(error);
-  //     }
-  //   };
+      dispatch(fetchCategoriesSuccess(data));
+      dispatch(fetchFinish());
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Categories fetch failed";
+      dispatch(fetchFail(message));
+      console.log(error);
+    }
+  };
 
   //   const getBlogPageData = async () => {
   //     try {
@@ -173,7 +176,7 @@ const useBlogCall = () => {
     }
   };
 
-  return { getBlogs, getLatestBlog, getMostReadBlogs };
+  return { getBlogs, getLatestBlog, getMostReadBlogs, getCategories };
 };
 
 export default useBlogCall;

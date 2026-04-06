@@ -1,15 +1,8 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectLatestBlog } from "../features/blogSlice";
-import useBlogCall from "../hooks/useBlogCall";
 
 export default function LatestBlog() {
-  const { getLatestBlog } = useBlogCall();
   const latestBlog = useSelector(selectLatestBlog);
-
-  useEffect(() => {
-    getLatestBlog();
-  }, []);
 
   if (!latestBlog) return null;
 

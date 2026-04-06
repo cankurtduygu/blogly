@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface Blog {
+export interface Blog {
   _id: string;
   title: string;
   content: string;
