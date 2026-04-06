@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectBlogs, selectCategories } from "../features/blogSlice";
+import { selectCurrentUser } from "../features/authSlice";
 import BlogCard from "./BlogCard";
 
 export default function Blogs() {
   const categories = useSelector(selectCategories);
   const blogs = useSelector(selectBlogs);
+  const currentUser = useSelector(selectCurrentUser);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  console.log(blogs);
+
   return (
     <>
       <div className="flex flex-col lg:flex-row items-start justify-between mt-10 gap-6">
@@ -77,9 +79,13 @@ export default function Blogs() {
         ))}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-5 gap-6">
-      {blogs.map((blog) => (
-        <BlogCard key={blog._id} blog={blog} />
-      ))}
+      {blogs.map((blog) => {
+        const catName = categories.find((cat)=> (cat._id ===blog.categoryId))?.name || null;
+        const authorName = currentUser && currentUser._id === blog.userId
+          ? `${currentUser.firstName} ${currentUser.lastName}`
+          : "Anonymous";
+        return <BlogCard key={blog._id} blog={blog} catName={catName} authorName={authorName} />;
+      })}
       </div>
     </>
   );

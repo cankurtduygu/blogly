@@ -9,6 +9,7 @@ export interface Blog {
   userId: string;
   likes: string[];
   comments: string[];
+  countOfVisitors?: number;
   createdAt: string;
   updatedAt: string;
 }
