@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectTopBlogs } from "../features/blogSlice";
+import { Link } from "react-router-dom";
 
 export default function MostReadBlog() {
   const topBlogs = useSelector(selectTopBlogs);
@@ -9,8 +10,9 @@ export default function MostReadBlog() {
   return (
     <div className="flex flex-col gap-4">
       {topBlogs.map((blog) => (
-        <div
+        <Link
           key={blog._id}
+          to={`/blogs/${blog._id}`}
           className="flex items-center gap-4 bg-white rounded-xl p-4 shadow shadow-black/5 hover:-translate-y-0.5 transition duration-300"
         >
           <img
@@ -19,7 +21,7 @@ export default function MostReadBlog() {
             alt={blog.title}
           />
           <div>
-            <h3 className="text-sm text-slate-900 font-semibold leading-snug">
+            <h3 className="text-base text-slate-900 font-semibold leading-snug">
               {blog.title}
             </h3>
             <p className="text-xs text-slate-400 mt-1.5">
@@ -35,7 +37,7 @@ export default function MostReadBlog() {
               })()}
             </p>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

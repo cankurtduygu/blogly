@@ -2,13 +2,12 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { selectToken } from "../features/authSlice";
 import {
-  //   fetchCategoriesSuccess,
   fetchFail,
   fetchStart,
   fetchSuccess,
   fetchLatestBlogSuccess,
   fetchMostReadBlogsSuccess,
-  //   fetchBlogByIdSuccess,
+  fetchBlogByIdSuccess,
   fetchFinish,
   fetchCategoriesSuccess,
 } from "../features/blogSlice";
@@ -20,11 +19,16 @@ const useBlogCall = () => {
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
 
-  const getBlogs = async () => {
+  const getBlogs = async (page = 1, limit = 6, categoryId = "") => {
     try {
       dispatch(fetchStart());
 
-      const { data } = await axios(`${BASE_URL}blogs`, {
+      let url = `${BASE_URL}blogs?page=${page}&limit=${limit}`;
+      if (categoryId) {
+        url += `&filter[categoryId]=${categoryId}`;
+      }
+
+      const { data } = await axios(url, {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -87,51 +91,52 @@ const useBlogCall = () => {
   //     }
   //   };
 
-  // const getBlogsById = async (id) =>{
-  //   try {
-  //     dispatch(fetchStart());
+  const getBlogsById = async (id: string) => {
+    try {
+      dispatch(fetchStart());
+      const { data } = await axios(`${BASE_URL}blogs/${id}`, {
+        headers: { Authorization: `Token ${token}` },
+      });
+      dispatch(fetchBlogByIdSuccess({ data }));
+      dispatch(fetchFinish());
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Blog fetch failed";
+      dispatch(fetchFail(message));
+    }
+  };
 
-  //     const { data } = await axios(`${BASE_URL}blogs/${id}`, {
-  //       headers: {
-  //         Authorization: `Token ${token}`,
-  //       },
-  //     });
+  const toggleLike = async (id: string) => {
+    try {
+      await axios.post(
+        `${BASE_URL}blogs/${id}/postLike`,
+        {},
+        {
+          headers: { Authorization: `Token ${token}` },
+        },
+      );
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Like toggle failed";
+      dispatch(fetchFail(message));
+    }
+  };
 
-  //     dispatch(fetchBlogByIdSuccess({ data }));
-  //     dispatch(fetchFinish());
-  //   } catch (error) {
-  //     dispatch(fetchFail(error.message));
-  //     console.log(error);
-  //   }
-  // }
-
-  // const toggleLike = async (id) => {
-  //   try {
-  //     await axios.post(`${BASE_URL}blogs/${id}/postLike`, {}, {
-  //       headers: {
-  //         Authorization: `Token ${token}`,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     dispatch(fetchFail(error.message));
-  //     console.log(error);
-  //   }
-  // };
-
-  // const postComment = async (blogId, commentText) => {
-  //   try {
-  //     await axios.post(`${BASE_URL}comments`, { blogId: blogId, comment: commentText }, {
-  //       headers: {
-  //         Authorization: `Token ${token}`,
-  //       },
-  //     });
-  //     toast.success('Yorum başarıyla eklendi!');
-  //   } catch (error) {
-  //     toast.error('Yorum eklenemedi!');
-  //     dispatch(fetchFail(error.message));
-  //     console.log(error);
-  //   }
-  // };
+  const postComment = async (blogId: string, commentText: string) => {
+    try {
+      await axios.post(
+        `${BASE_URL}comments`,
+        { blogId, comment: commentText },
+        {
+          headers: { Authorization: `Token ${token}` },
+        },
+      );
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Comment post failed";
+      dispatch(fetchFail(message));
+    }
+  };
 
   const getLatestBlog = async () => {
     try {
@@ -176,7 +181,15 @@ const useBlogCall = () => {
     }
   };
 
-  return { getBlogs, getLatestBlog, getMostReadBlogs, getCategories };
+  return {
+    getBlogs,
+    getLatestBlog,
+    getMostReadBlogs,
+    getCategories,
+    getBlogsById,
+    toggleLike,
+    postComment,
+  };
 };
 
 export default useBlogCall;

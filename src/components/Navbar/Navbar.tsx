@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import type { iNavLink } from "./Navbar.types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../features/authSlice";
+import useAuthCall from "../../hooks/useAuthCall";
 
 const Navbar = () => {
+  const currentUser = useSelector(selectCurrentUser);
+  const { signOut } = useAuthCall();
+  const navigate = useNavigate();
   const navLinks: iNavLink[] = [
     { name: "Home", path: "/" },
-    { name: "Blogs", path: "/" },
-    { name: "Contact", path: "/" },
-    { name: "About", path: "/" },
+    { name: "Write", path: "/write" },
+    { name: "About", path: "/about" },
   ];
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,43 +54,55 @@ const Navbar = () => {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-4 lg:gap-8">
             {navLinks.map((link, i) => (
-              <a
+              <Link
                 key={i}
-                href={link.path}
+                to={link.path}
                 className={`group flex flex-col gap-0.5 ${isScrolled ? "text-slate-900" : "text-white"}`}
               >
                 {link.name}
                 <div
                   className={`${isScrolled ? "bg-indigo-500" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`}
                 />
-              </a>
+              </Link>
             ))}
           </div>
 
           {/* Desktop Right */}
           <div className="hidden md:flex items-center gap-4">
-            {/* <svg
-            className={`h-6 w-6 text-white transition-all duration-500 ${isScrolled ? "invert" : ""}`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg> */}
-            <Link
-              to={"/sign-in"}
-              className={`ml-4 transition-all duration-500 ${isScrolled ? "text-slate-900" : "text-white"}`}
-            >
-              Sign In
-            </Link>
-            <Link
-              to={"/sign-up"}
-              className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-indigo-500 hover:bg-indigo-600" : "bg-white text-slate-900"}`}
-            >
-              Get Started
-            </Link>
+            {currentUser ? (
+              <>
+                <button
+                  onClick={async () => {
+                    await signOut();
+                    navigate("/");
+                  }}
+                  className={`ml-4 transition-all duration-500 cursor-pointer ${isScrolled ? "text-slate-900" : "text-white"}`}
+                >
+                  Sign Out
+                </button>
+                <Link
+                  to="/profile"
+                  className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-indigo-500 hover:bg-indigo-600" : "bg-white text-slate-900"}`}
+                >
+                  Profile
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/sign-in"
+                  className={`ml-4 transition-all duration-500 ${isScrolled ? "text-slate-900" : "text-white"}`}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/sign-up"
+                  className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-indigo-500 hover:bg-indigo-600" : "bg-white text-slate-900"}`}
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -125,24 +142,47 @@ const Navbar = () => {
             </button>
 
             {navLinks.map((link, i) => (
-              <a key={i} href={link.path} onClick={() => setIsMenuOpen(false)}>
+              <Link key={i} to={link.path} onClick={() => setIsMenuOpen(false)}>
                 {link.name}
-              </a>
+              </Link>
             ))}
 
-            <Link
-              to={"/sign-in"}
-              className="transition-all duration-500 text-slate-500 hover:text-indigo-500"
-            >
-              Sign In
-            </Link>
-
-            <Link
-              to={"/sign-up"}
-              className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-full transition-all duration-500"
-            >
-              Get Started
-            </Link>
+            {currentUser ? (
+              <>
+                <button
+                  onClick={async () => {
+                    await signOut();
+                    setIsMenuOpen(false);
+                    navigate("/");
+                  }}
+                  className="transition-all duration-500 text-slate-500 hover:text-indigo-500"
+                >
+                  Sign Out
+                </button>
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-full transition-all duration-500"
+                >
+                  Profile
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/sign-in"
+                  className="transition-all duration-500 text-slate-500 hover:text-indigo-500"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/sign-up"
+                  className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-full transition-all duration-500"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>

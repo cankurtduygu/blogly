@@ -4,8 +4,17 @@ import { selectCurrentUser } from "../features/authSlice";
 import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
-export default function BlogCard({ blog, catName, authorName }: { blog: Blog; catName: string | null; authorName: string }) {
+export default function BlogCard({
+  blog,
+  catName,
+  authorName,
+}: {
+  blog: Blog;
+  catName: string | null;
+  authorName: string;
+}) {
   const currentUser = useSelector(selectCurrentUser);
   const isLiked = currentUser ? blog.likes.includes(currentUser._id) : false;
 
@@ -50,21 +59,27 @@ export default function BlogCard({ blog, catName, authorName }: { blog: Blog; ca
             : blog.content.replace(/<[^>]*>/g, "")}
         </p>
         <div className="flex items-center justify-between mt-4 mb-3 ml-2 mr-2">
-          <button
-            type="button"
+          <Link
+            to={`/blogs/${blog._id}`}
             className="bg-indigo-600 hover:bg-indigo-700 transition cursor-pointer px-6 py-2 font-medium rounded-md text-white text-sm"
           >
             Read More
-          </button>
+          </Link>
           <div className="flex items-center gap-4 text-gray-500 text-sm">
-            <button className="flex items-center gap-1 cursor-pointer transition hover:text-red-500">
+            <Link
+              to={`/blogs/${blog._id}`}
+              className="flex items-center gap-1 transition hover:text-red-500"
+            >
               {isLiked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
               <span>{blog.likes.length}</span>
-            </button>
-            <span className="flex items-center gap-1">
+            </Link>
+            <Link
+              to={`/blogs/${blog._id}`}
+              className="flex items-center gap-1 hover:text-indigo-600 transition"
+            >
               <FaRegComment />
               <span>{blog.comments.length}</span>
-            </span>
+            </Link>
             <span className="flex items-center gap-1">
               <FiEye />
               <span>{blog.countOfVisitors ?? 0}</span>

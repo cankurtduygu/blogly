@@ -5,13 +5,12 @@ import LatestBlog from "./LatestBlog";
 import MostReadBlog from "./MostReadBlog";
 
 export default function BlogSection() {
-  const { getLatestBlog, getMostReadBlogs, getCategories, getBlogs } = useBlogCall();
+  const { getLatestBlog, getMostReadBlogs, getCategories } = useBlogCall();
 
   useEffect(() => {
     getLatestBlog();
     getMostReadBlogs();
     getCategories();
-    getBlogs();
   }, []);
 
   return (

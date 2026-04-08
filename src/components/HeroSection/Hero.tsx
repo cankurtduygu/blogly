@@ -4,7 +4,7 @@ import heroImg from "../../assets/heroimg.png";
 export default function Hero() {
   return (
     <div>
-      <main className="flex flex-col max-md:gap-20 md:flex-row pb-20 items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32">
+      <main className="max-w-7xl mx-auto flex flex-col max-md:gap-20 md:flex-row pb-20 items-center justify-between px-4">
         <div className="flex flex-col items-center md:items-start">
           <h1 className="text-center md:text-left text-6xl leading-11.5 md:text-5xl md:leading-17 font-semibold max-w-xl text-slate-900">
             A place to

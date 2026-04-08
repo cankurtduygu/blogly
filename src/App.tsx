@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home/Home";
+import About from "./pages/About";
+import BlogDetail from "./pages/BlogDetail";
 import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
 
@@ -17,7 +19,7 @@ import { selectCurrentUser } from "./features/authSlice";
 
 function ProtectedRoute() {
   const user = useSelector(selectCurrentUser);
-    return user ? <Outlet /> : <Navigate to="/sign-in" />;
+  return user ? <Outlet /> : <Navigate to="/sign-in" />;
 }
 
 function PublicOnlyRoute() {
@@ -35,6 +37,8 @@ const router = createBrowserRouter([
     // errorElement: <Error />,
     children: [
       { index: true, element: <Home /> },
+      { path: "about", element: <About /> },
+      { path: "blogs/:id", element: <BlogDetail /> },
       {
         element: <PublicOnlyRoute />,
         children: [

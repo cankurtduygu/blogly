@@ -27,6 +27,16 @@ interface Comment {
   createdAt: string;
 }
 
+interface PaginationDetails {
+  pages: {
+    previous: number | false;
+    current: number;
+    next: number | false;
+    total: number;
+  } | false;
+  totalRecords: number;
+}
+
 interface BlogState {
   loading: boolean;
   error: string | null;
@@ -36,6 +46,7 @@ interface BlogState {
   topBlogs: Blog[];
   categories: Category[];
   comments: Comment[];
+  details: PaginationDetails | null;
 }
 
 const initialState: BlogState = {
@@ -47,6 +58,7 @@ const initialState: BlogState = {
   topBlogs: [],
   categories: [],
   comments: [],
+  details: null,
 };
 
 export const blogSlice = createSlice({
@@ -64,6 +76,7 @@ export const blogSlice = createSlice({
     fetchSuccess: (state, { payload }) => {
       state.error = null;
       state.blogs = payload.data;
+      state.details = payload.details;
     },
     fetchCategoriesSuccess: (state, { payload }) => {
       state.error = null;
@@ -109,4 +122,5 @@ export const selectCategories = (state: { blog: BlogState }) =>
 export const selectBlogLoading = (state: { blog: BlogState }) =>
   state.blog.loading;
 export const selectBlogError = (state: { blog: BlogState }) => state.blog.error;
+export const selectDetails = (state: { blog: BlogState }) => state.blog.details;
 export default blogSlice.reducer;

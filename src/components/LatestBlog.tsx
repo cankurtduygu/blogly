@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectLatestBlog } from "../features/blogSlice";
+import { Link } from "react-router-dom";
 
 export default function LatestBlog() {
   const latestBlog = useSelector(selectLatestBlog);
@@ -21,12 +22,12 @@ export default function LatestBlog() {
           ? latestBlog.content.slice(0, 300) + "..."
           : latestBlog.content}
       </p>
-      <button
-        type="button"
-        className="bg-indigo-600 hover:bg-indigo-700 transition cursor-pointer mt-4 mb-3 ml-2 px-6 py-2 font-medium rounded-md text-white text-sm"
+      <Link
+        to={`/blogs/${latestBlog._id}`}
+        className="inline-block bg-indigo-600 hover:bg-indigo-700 transition cursor-pointer mt-4 mb-3 ml-2 px-6 py-2 font-medium rounded-md text-white text-sm"
       >
-        Learn More
-      </button>
+        Read More
+      </Link>
     </div>
   );
 }
