@@ -14,8 +14,7 @@ export const signInSchema = z.object({
 
 export type SignInFormData = z.infer<typeof signInSchema>;
 
-export const signUpSchema = z
-  .object({
+export const signUpSchema = z.object({
     username: z
       .string()
       .min(3, "Username must be at least 3 characters")
@@ -50,3 +49,13 @@ export const signUpSchema = z
 
 export type SignUpFormData = z.infer<typeof signUpSchema>;
 export type SignUpCredentials = Omit<SignUpFormData, "confirmPassword">;
+
+export const writeSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  categoryId: z.string().min(1, "Category is required"),
+  image: z.string().url("Enter a valid URL"),
+  content: z.string().min(1, "Content is required"),
+  isPublish: z.boolean(),
+});
+
+export type WriteFormData = z.infer<typeof writeSchema>;

@@ -4,7 +4,8 @@ import { selectCurrentUser } from "../features/authSlice";
 import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function BlogCard({
   blog,
@@ -16,7 +17,15 @@ export default function BlogCard({
   authorName: string;
 }) {
   const currentUser = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
   const isLiked = currentUser ? blog.likes.includes(currentUser._id) : false;
+
+  const handleAuthAction = (e: React.MouseEvent) => {
+    if (!currentUser) {
+      e.preventDefault();
+      toast.info("Please sign in to interact with blogs");
+    }
+  };
 
   return (
     <>
@@ -61,6 +70,7 @@ export default function BlogCard({
         <div className="flex items-center justify-between mt-4 mb-3 ml-2 mr-2">
           <Link
             to={`/blogs/${blog._id}`}
+            onClick={handleAuthAction}
             className="bg-indigo-600 hover:bg-indigo-700 transition cursor-pointer px-6 py-2 font-medium rounded-md text-white text-sm"
           >
             Read More
@@ -68,6 +78,7 @@ export default function BlogCard({
           <div className="flex items-center gap-4 text-gray-500 text-sm">
             <Link
               to={`/blogs/${blog._id}`}
+              onClick={handleAuthAction}
               className="flex items-center gap-1 transition hover:text-red-500"
             >
               {isLiked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
@@ -75,6 +86,7 @@ export default function BlogCard({
             </Link>
             <Link
               to={`/blogs/${blog._id}`}
+              onClick={handleAuthAction}
               className="flex items-center gap-1 hover:text-indigo-600 transition"
             >
               <FaRegComment />

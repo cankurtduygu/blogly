@@ -12,6 +12,7 @@ import {
   fetchCategoriesSuccess,
 } from "../features/blogSlice";
 import { useSelector } from "react-redux";
+import type { WriteFormData } from "../lib/schemas";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -19,7 +20,11 @@ const useBlogCall = () => {
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
 
-  const getBlogs = async (page = 1, limit = 6, categoryId = "") => {
+  const authHeaders = token
+    ? { headers: { Authorization: `Token ${token}` } }
+    : {};
+
+  const getBlogs = async (page = 1, limit = 6, categoryId = "" ) => {
     try {
       dispatch(fetchStart());
 
@@ -27,12 +32,7 @@ const useBlogCall = () => {
       if (categoryId) {
         url += `&filter[categoryId]=${categoryId}`;
       }
-
-      const { data } = await axios(url, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
+      const { data } = await axios(url, authHeaders);
 
       dispatch(fetchSuccess(data));
       dispatch(fetchFinish());
@@ -48,12 +48,7 @@ const useBlogCall = () => {
     try {
       dispatch(fetchStart());
 
-      const { data } = await axios(`${BASE_URL}categories`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
-
+      const { data } = await axios(`${BASE_URL}categories`, authHeaders);
       dispatch(fetchCategoriesSuccess(data));
       dispatch(fetchFinish());
     } catch (error) {
@@ -64,39 +59,10 @@ const useBlogCall = () => {
     }
   };
 
-  //   const getBlogPageData = async () => {
-  //     try {
-  //       dispatch(fetchStart());
-
-  //       const categoryRes = await axios(`${BASE_URL}categories`, {
-  //         headers: {
-  //           Authorization: `Token ${token}`,
-  //         },
-  //       });
-
-  //       dispatch(fetchCategoriesSuccess(categoryRes.data));
-
-  //       const blogRes = await axios(`${BASE_URL}blogs`, {
-  //         headers: {
-  //           Authorization: `Token ${token}`,
-  //         },
-  //       });
-
-  //       dispatch(fetchSuccess(blogRes.data));
-
-  //       dispatch(fetchFinish());
-  //     } catch (error) {
-  //       dispatch(fetchFail(error.message));
-  //       console.log(error);
-  //     }
-  //   };
-
   const getBlogsById = async (id: string) => {
     try {
       dispatch(fetchStart());
-      const { data } = await axios(`${BASE_URL}blogs/${id}`, {
-        headers: { Authorization: `Token ${token}` },
-      });
+      const { data } = await axios(`${BASE_URL}blogs/${id}`, authHeaders);
       dispatch(fetchBlogByIdSuccess({ data }));
       dispatch(fetchFinish());
     } catch (error) {
@@ -138,17 +104,29 @@ const useBlogCall = () => {
     }
   };
 
+  const createPost = async (data:WriteFormData) => {
+    try {
+      await axios.post(`${BASE_URL}blogs`,
+        data,
+        {
+          headers: { Authorization: `Token ${token}` },
+        },
+      );
+    } catch (error) {
+       const message =
+        error instanceof Error ? error.message : "Create post failed";
+      dispatch(fetchFail(message));
+      throw error;
+    }
+  };
+
   const getLatestBlog = async () => {
     try {
       dispatch(fetchStart());
 
       const { data } = await axios(
         `${BASE_URL}blogs?sort[createdAt]=desc&limit=1`,
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        },
+        authHeaders,
       );
 
       dispatch(fetchLatestBlogSuccess(data));
@@ -166,9 +144,7 @@ const useBlogCall = () => {
 
       const { data } = await axios(
         `${BASE_URL}blogs?sort[countOfVisitors]=desc&limit=3`,
-        {
-          headers: { Authorization: `Token ${token}` },
-        },
+        authHeaders,
       );
 
       dispatch(fetchMostReadBlogsSuccess(data));
@@ -181,6 +157,11 @@ const useBlogCall = () => {
     }
   };
 
+  const getUserBlogs = async (userId: string) => {
+    const { data } = await  axios(`${BASE_URL}blogs?filter[userId]=${userId}`, authHeaders);
+    return data;
+   } 
+
   return {
     getBlogs,
     getLatestBlog,
@@ -189,6 +170,8 @@ const useBlogCall = () => {
     getBlogsById,
     toggleLike,
     postComment,
+    createPost,
+    getUserBlogs
   };
 };
 

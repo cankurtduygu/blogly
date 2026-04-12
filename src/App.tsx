@@ -10,16 +10,17 @@ import About from "./pages/About";
 import BlogDetail from "./pages/BlogDetail";
 import SignUp from "./pages/SignUp/SignUp";
 import SignIn from "./pages/SignIn/SignIn";
-
 import { Provider, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import store from "./state/store";
 import { selectCurrentUser } from "./features/authSlice";
+import Write from "./pages/Write";
+import Profile from "./pages/Profile/Profile";
 
 function ProtectedRoute() {
   const user = useSelector(selectCurrentUser);
-  return user ? <Outlet /> : <Navigate to="/sign-in" />;
+  return user ? <Outlet /> : <Navigate to="/" />;
 }
 
 function PublicOnlyRoute() {
@@ -49,7 +50,8 @@ const router = createBrowserRouter([
       {
         element: <ProtectedRoute />,
         children: [
-          { path: "write", element: <div>Write</div> },
+          { path: "write", element: <Write /> },
+          { path: "profile", element: <Profile /> }
           // { path: "blogs/:id", element: <CardDetail /> },
         ],
       },

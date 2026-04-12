@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.tiptap {
+  min-height: 100%;
+  outline: none;
+}
+.tiptap:focus {
+  outline: none;
+}

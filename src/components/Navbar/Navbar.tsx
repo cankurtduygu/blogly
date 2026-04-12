@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../features/authSlice";
 import useAuthCall from "../../hooks/useAuthCall";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -57,6 +58,12 @@ const Navbar = () => {
               <Link
                 key={i}
                 to={link.path}
+                onClick={(e) => {
+                  if (link.name === "Write" && !currentUser) {
+                    e.preventDefault();
+                    toast.info("Please sign in to write a blog");
+                  }
+                }}
                 className={`group flex flex-col gap-0.5 ${isScrolled ? "text-slate-900" : "text-white"}`}
               >
                 {link.name}
@@ -142,7 +149,17 @@ const Navbar = () => {
             </button>
 
             {navLinks.map((link, i) => (
-              <Link key={i} to={link.path} onClick={() => setIsMenuOpen(false)}>
+              <Link
+                key={i}
+                to={link.path}
+                onClick={(e) => {
+                  if (link.name === "Write" && !currentUser) {
+                    e.preventDefault();
+                    toast.info("Please sign in to write a blog");
+                  }
+                  setIsMenuOpen(false);
+                }}
+              >
                 {link.name}
               </Link>
             ))}

@@ -1,75 +1,75 @@
-# React + TypeScript + Vite
+ # Blogly — Full Stack Blog Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern blog platform built with React, TypeScript, and Tailwind CSS. Users can browse blogs without logging in, and create/like/comment when authenticated.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Category | Technologies |
+|---|---|
+| **Frontend** | React 19, TypeScript, Vite |
+| **Styling** | Tailwind CSS 4 |
+| **State Management** | Redux Toolkit, Redux Persist |
+| **Routing** | React Router DOM 7 |
+| **Form & Validation** | React Hook Form, Zod |
+| **API** | Axios |
+| **UI** | React Icons, React Toastify |
 
-## React Compiler
+## Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **Public Browsing** — Anyone can see blogs, latest blog, and most-read blogs without logging in
+- **Authentication** — Sign In / Sign Up with form validation (Zod + RHF)
+- **Blog Detail** — Article-style layout with like, comment, and view count
+- **Like & Comment** — Authenticated users can like and comment on blogs (optimistic UI update for likes)
+- **Write Page** — Protected page to create new blog posts with title, category, image URL, content, and publish toggle
+- **Category Filtering** — Filter blogs by category
+- **Pagination** — Paginated blog listing
 
-Note: This will impact Vite dev & build performances.
+## Pages & Routes
 
-## Expanding the ESLint configuration
+| Route | Page | Access |
+|---|---|---|
+| `/` | Home (Blog listing) | Public |
+| `/about` | About | Public |
+| `/blogs/:id` | Blog Detail | Public |
+| `/sign-in` | Sign In | Public only (redirects if logged in) |
+| `/sign-up` | Sign Up | Public only |
+| `/write` | Write Blog | Protected (redirects to home if not logged in) |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project Structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/       # Reusable UI components (BlogCard, Navbar, Sidebar, etc.)
+├── features/         # Redux slices (authSlice, blogSlice)
+├── hooks/            # Custom hooks (useAuthCall, useBlogCall, useAxios)
+├── layouts/          # MainLayout (Navbar + Footer wrapper)
+├── lib/              # Zod schemas & types
+├── pages/            # Page components (Home, SignIn, SignUp, Write, BlogDetail)
+└── state/            # Redux store configuration
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Write Page — Implementation Details
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The Write page allows authenticated users to create blog posts.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Architecture:**
+- **Form Management:** React Hook Form (`useForm`) with Zod validation (`zodResolver`)
+- **Schema:** `writeSchema` in `lib/schemas.ts` — validates title, categoryId, image (URL), content, and isPublish
+- **Type Safety:** `WriteFormData` type inferred from Zod schema (`z.infer`) — single source of truth
+- **API Call:** `createPost(data)` in `useBlogCall` hook — POST to `/blogs` with auth token
+- **Error Handling:** Hook catches error, dispatches to Redux, then re-throws → Component catches and shows toast
+- **Success Flow:** Toast notification + redirect to home page
+
+## API
+
+Base URL: `https://31121.fullstack.clarusway.com/`
+
+- GET requests work **without** authentication (public browsing)
+- POST requests (like, comment, create) require `Authorization: Token <token>` header
+
+## Getting Started
+
+```bash
+pnpm install
+pnpm dev
 ```
