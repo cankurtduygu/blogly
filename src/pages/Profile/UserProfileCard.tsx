@@ -15,18 +15,21 @@ export default function UserProfileCard() {
   useEffect(() => {
     const fetch = async () => {
       const data = await getUserBlogs(currentUser!._id);
-      console.log(data)
+      console.log(data);
       setUserBlogs(data.data);
     };
     if (currentUser?._id) fetch();
   }, []);
 
-  const totalLikes = userBlogs.reduce((sum, blog) => sum + blog.likes.length, 0);
+  const totalLikes = userBlogs.reduce(
+    (sum, blog) => sum + blog.likes.length,
+    0,
+  );
 
   return (
     <div className="w-full">
-      <div className="bg-gray-900 rounded-2xl p-8 w-full flex items-center justify-between">
-        <div className="flex items-center gap-5">
+      <div className="bg-gray-900 rounded-2xl p-6 sm:p-8 w-full flex flex-col sm:flex-row items-center sm:justify-between gap-6">
+        <div className="flex flex-col sm:flex-row items-center gap-5">
           <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white/20 shrink-0">
             <img
               className="w-full h-full object-cover object-top"
@@ -34,8 +37,8 @@ export default function UserProfileCard() {
               alt="userImage2"
             />
           </div>
-          <div>
-            <p className="font-semibold text-xl text-white capitalize">
+          <div className="text-center sm:text-left">
+            <p className="font-semibold text-lg sm:text-xl text-white capitalize">
               {currentUser?.firstName} {currentUser?.lastName}
             </p>
             <div className="flex items-center gap-4 mt-1">

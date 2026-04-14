@@ -6,9 +6,8 @@ import { writeSchema, type WriteFormData } from "../lib/schemas";
 import useBlogCall from "../hooks/useBlogCall";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { Controller } from 'react-hook-form'
+import { Controller } from "react-hook-form";
 import Tiptap from "../components/Tiptap";
-
 
 
 export default function Write() {
@@ -45,7 +44,9 @@ export default function Write() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Create New Blog</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">
+        Create New Blog
+      </h1>
 
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         {/* Title */}

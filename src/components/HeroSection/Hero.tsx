@@ -4,17 +4,17 @@ import heroImg from "../../assets/heroimg.png";
 export default function Hero() {
   return (
     <div>
-      <main className="max-w-7xl mx-auto flex flex-col max-md:gap-20 md:flex-row pb-20 items-center justify-between px-4">
+      <main className="max-w-7xl mx-auto flex flex-col max-md:gap-10 md:flex-row pb-10 md:pb-20 items-center justify-between px-4">
         <div className="flex flex-col items-center md:items-start">
-          <h1 className="text-center md:text-left text-6xl leading-11.5 md:text-5xl md:leading-17 font-semibold max-w-xl text-slate-900">
+          <h1 className="text-center md:text-left text-3xl sm:text-4xl md:text-5xl leading-tight md:leading-17 font-semibold max-w-xl text-slate-900">
             A place to
             <br />
             read, write, and grow.
           </h1>
-          <p className="text-center md:text-left text-md text-slate-700 max-w-lg mt-8">
+          <p className="text-center md:text-left text-sm sm:text-base text-slate-700 max-w-lg mt-4 sm:mt-8">
             Read and share articles on technology, life, and more.
           </p>
-          <div className="flex items-center gap-4 mt-8 text-sm">
+          <div className="flex items-center gap-4 mt-4 sm:mt-8 text-sm">
             <Link
               to="/sign-up"
               className="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95 transition rounded-md px-7 h-11"
@@ -44,7 +44,7 @@ export default function Hero() {
         <img
           src={heroImg}
           alt="hero"
-          className="max-w-sm sm:max-w-md lg:max-w-lg 2xl:max-w-xl transition-all duration-300"
+          className="max-w-70 sm:max-w-sm md:max-w-md lg:max-w-lg 2xl:max-w-xl transition-all duration-300"
         />
       </main>
     </div>

@@ -51,7 +51,7 @@ export default function SignUpForm() {
       <div className="w-full flex flex-col items-center justify-center">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="md:w-md w-80 flex flex-col items-center justify-center"
+          className="md:w-md w-full max-w-sm flex flex-col items-center justify-center px-4 md:px-0"
         >
           <h2 className="text-4xl text-slate-900 font-medium">
             Create an account
@@ -79,7 +79,7 @@ export default function SignUpForm() {
           </div>
 
           {/* First Name & Last Name */}
-          <div className="flex gap-4 w-full">
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
             <div className="flex flex-col w-full gap-1">
               <label className="text-sm font-semibold text-slate-700">
                 First Name
@@ -206,7 +206,7 @@ export default function SignUpForm() {
           </div>
 
           {/* Password & Confirm Password */}
-          <div className="flex gap-4 w-full mt-4">
+          <div className="flex flex-col sm:flex-row gap-4 w-full mt-4">
             <div className="flex flex-col w-full gap-1">
               <label className="text-sm font-semibold text-slate-700">
                 Password

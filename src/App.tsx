@@ -51,8 +51,8 @@ const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           { path: "write", element: <Write /> },
-          { path: "profile", element: <Profile /> }
-          // { path: "blogs/:id", element: <CardDetail /> },
+          { path: "profile", element: <Profile /> },
+          { path: "blogs/:id/edit", element: <Write /> },
         ],
       },
     ],

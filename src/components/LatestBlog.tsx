@@ -28,9 +28,12 @@ export default function LatestBlog() {
         {latestBlog.title}
       </p>
       <p className="text-zinc-400 text-sm/6 mt-2 ml-2 mb-2">
-        {latestBlog.content.length > 100
-          ? latestBlog.content.slice(0, 300) + "..."
-          : latestBlog.content}
+        {(() => {
+          const stripped = latestBlog.content.replace(/<[^>]*>/g, "");
+          return stripped.length > 300
+            ? stripped.slice(0, 300) + "..."
+            : stripped;
+        })()}
       </p>
       <Link
         to={`/blogs/${latestBlog._id}`}

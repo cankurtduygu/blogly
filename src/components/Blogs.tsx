@@ -32,9 +32,9 @@ export default function Blogs() {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row items-start justify-between mt-10 gap-6">
+      <div className="flex flex-col md:flex-row items-start justify-between mt-10 gap-6">
         <div>
-          <h2 className="text-2xl font-semibold  text-slate-900 mb-6 ">
+          <h2 className="text-xl sm:text-2xl font-semibold  text-slate-900 mb-4 md:mb-6 ">
             Browse by categories
           </h2>
         </div>

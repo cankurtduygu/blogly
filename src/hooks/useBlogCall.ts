@@ -24,7 +24,7 @@ const useBlogCall = () => {
     ? { headers: { Authorization: `Token ${token}` } }
     : {};
 
-  const getBlogs = async (page = 1, limit = 6, categoryId = "" ) => {
+  const getBlogs = async (page = 1, limit = 6, categoryId = "") => {
     try {
       dispatch(fetchStart());
 
@@ -104,16 +104,13 @@ const useBlogCall = () => {
     }
   };
 
-  const createPost = async (data:WriteFormData) => {
+  const createPost = async (data: WriteFormData) => {
     try {
-      await axios.post(`${BASE_URL}blogs`,
-        data,
-        {
-          headers: { Authorization: `Token ${token}` },
-        },
-      );
+      await axios.post(`${BASE_URL}blogs`, data, {
+        headers: { Authorization: `Token ${token}` },
+      });
     } catch (error) {
-       const message =
+      const message =
         error instanceof Error ? error.message : "Create post failed";
       dispatch(fetchFail(message));
       throw error;
@@ -158,9 +155,27 @@ const useBlogCall = () => {
   };
 
   const getUserBlogs = async (userId: string) => {
-    const { data } = await  axios(`${BASE_URL}blogs?filter[userId]=${userId}`, authHeaders);
+    const { data } = await axios(
+      `${BASE_URL}blogs?filter[userId]=${userId}`,
+      authHeaders,
+    );
     return data;
-   } 
+  };
+
+  const deleteBlog = async (blogId: string) => {
+    await axios.delete(`${BASE_URL}blogs/${blogId}`, authHeaders);
+  };
+
+  const fetchBlogById = async (id: string) => {
+    const { data } = await axios(`${BASE_URL}blogs/${id}`, authHeaders);
+    return data;
+  };
+
+  const updateBlog = async (id: string, blogData: WriteFormData) => {
+    await axios.put(`${BASE_URL}blogs/${id}`, blogData, {
+      headers: { Authorization: `Token ${token}` },
+    });
+  };
 
   return {
     getBlogs,
@@ -171,7 +186,10 @@ const useBlogCall = () => {
     toggleLike,
     postComment,
     createPost,
-    getUserBlogs
+    getUserBlogs,
+    deleteBlog,
+    fetchBlogById,
+    updateBlog,
   };
 };
 

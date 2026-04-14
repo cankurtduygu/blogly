@@ -7,6 +7,7 @@ interface User {
   isAdmin: boolean;
   firstName: string;
   lastName: string;
+  image?: string;
 }
 
 interface AuthState {
@@ -25,8 +26,8 @@ export const authSlice = createSlice({
   reducers: {
     updateUserInfo: (state, { payload }) => {
       if (payload.user) {
-        const { _id, email, username, isAdmin, firstName, lastName } =
-          payload.user; //paload icinde bir suru sey geliyor sadece bu verileri alsak yeterli olur.
+        const { _id, email, username, isAdmin, firstName, lastName, image } =
+          payload.user;
         state.currentUser = {
           _id,
           email,
@@ -34,9 +35,10 @@ export const authSlice = createSlice({
           isAdmin,
           firstName,
           lastName,
+          image,
         };
       } else {
-        const { _id, email, username, isAdmin, firstName, lastName } =
+        const { _id, email, username, isAdmin, firstName, lastName, image } =
           payload.data;
         state.currentUser = {
           _id,
@@ -45,9 +47,14 @@ export const authSlice = createSlice({
           isAdmin,
           firstName,
           lastName,
+          image,
         };
       }
       state.token = payload.token;
+    },
+    updateProfile: (state, { payload }) => {
+      const { _id, email, username, isAdmin, firstName, lastName, image } = payload;
+      state.currentUser = { _id, email, username, isAdmin, firstName, lastName, image };
     },
     cleanAuth: (state) => {
       state.currentUser = null;
@@ -56,7 +63,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { updateUserInfo, cleanAuth } = authSlice.actions;
+export const { updateUserInfo, updateProfile, cleanAuth } = authSlice.actions;
 
 export const selectCurrentUser = (state: { auth: AuthState }) =>
   state.auth.currentUser; //useSelectorda uzun uzun yazmamaik icin burda bu sekilde yazyioruz.

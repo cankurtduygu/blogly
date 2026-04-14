@@ -1,19 +1,91 @@
-import { LuUser, LuMail, LuPhone } from "react-icons/lu";
+import React, { useRef } from "react";
+import { LuUser, LuMail, LuImage, LuAtSign } from "react-icons/lu";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../features/authSlice";
+import useAuthCall from "../../hooks/useAuthCall";
+import { toast } from "react-toastify";
 
-export default function ProfileForm() {
+export default function ProfileForm({
+  isEditOpen,
+  setIsEditOpen,
+}: {
+  isEditOpen: boolean;
+  setIsEditOpen: (val: boolean) => void;
+}) {
+  const currentUser = useSelector(selectCurrentUser);
+  const { updateUser } = useAuthCall();
+
+  // console.log(isEditOpen);
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleProfilUpdate = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const userData = Object.fromEntries(formData) as Record<string, string>;
+    try {
+      await updateUser(userData);
+      toast.success("Profile updated successfully");
+      setIsEditOpen(false);
+    } catch {
+      toast.error("Failed to update profile");
+    }
+  };
+
   return (
-    <div className="w-full mt-6 bg-white rounded-2xl border border-gray-200 p-8">
-      {/* Full Name & Email */}
-      <div className="grid grid-cols-2 gap-6">
+    <form
+      ref={formRef}
+      onSubmit={handleProfilUpdate}
+      className="w-full mt-6 bg-white rounded-2xl border border-gray-200 p-8"
+    >
+      {/* Full Name, Email, Password & Image */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-semibold text-gray-900 mb-2">
-            Full Name
+            First Name
           </label>
           <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
             <LuUser className="text-gray-400 shrink-0" size={18} />
             <input
+              name="firstName"
               type="text"
-              placeholder="Jane Doe"
+              placeholder="First Name"
+              defaultValue={currentUser?.firstName}
+              disabled={!isEditOpen}
+              className="w-full outline-none text-sm text-gray-700 placeholder-gray-400 bg-transparent"
+            />
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-900 mb-2">
+            Last Name
+          </label>
+          <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
+            <LuUser className="text-gray-400 shrink-0" size={18} />
+            <input
+              name="lastName"
+              type="text"
+              placeholder="Last Name"
+              defaultValue={currentUser?.lastName}
+              disabled={!isEditOpen}
+              className="w-full outline-none text-sm text-gray-700 placeholder-gray-400 bg-transparent"
+            />
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-900 mb-2">
+            Username
+          </label>
+          <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
+            <LuAtSign className="text-gray-400 shrink-0" size={18} />
+            <input
+              name="username"
+              type="text"
+              placeholder="Username"
+              defaultValue={currentUser?.username}
+              disabled={!isEditOpen}
               className="w-full outline-none text-sm text-gray-700 placeholder-gray-400 bg-transparent"
             />
           </div>
@@ -25,57 +97,55 @@ export default function ProfileForm() {
           <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
             <LuMail className="text-gray-400 shrink-0" size={18} />
             <input
+              name="email"
               type="email"
-              placeholder="jane@example.com"
+              placeholder="Email"
+              defaultValue={currentUser?.email}
+              disabled={!isEditOpen}
               className="w-full outline-none text-sm text-gray-700 placeholder-gray-400 bg-transparent"
             />
           </div>
         </div>
       </div>
 
-      {/* Phone Number */}
-      <div className="mt-6 w-1/2 pr-3">
+      {/* Image */}
+      <div className="mt-6">
         <label className="block text-sm font-semibold text-gray-900 mb-2">
-          Phone Number
+          Image
         </label>
         <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
-          <LuPhone className="text-gray-400 shrink-0" size={18} />
+          <LuImage className="text-gray-400 shrink-0" size={18} />
           <input
-            type="tel"
-            placeholder="+1 (555) 123-4567"
+            name="image"
+            type="url"
+            placeholder="Image URL"
+            defaultValue={currentUser?.image}
+            disabled={!isEditOpen}
             className="w-full outline-none text-sm text-gray-700 placeholder-gray-400 bg-transparent"
           />
         </div>
       </div>
 
-      {/* Divider */}
-      <hr className="my-8 border-gray-200" />
-
-      {/* Newsletter */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-sm font-semibold text-gray-900">
-            Newsletter Preferences
-          </h3>
-          <p className="text-sm text-gray-400 mt-1">
-            Receive updates on new arrivals and offers.
-          </p>
-        </div>
-        <label className="relative inline-flex items-center cursor-pointer">
-          <input type="checkbox" className="sr-only peer" />
-          <div className="w-11 h-6 bg-gray-300 peer-checked:bg-gray-900 rounded-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] peer-checked:after:translate-x-full after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all" />
-        </label>
-      </div>
-
       {/* Buttons */}
       <div className="flex justify-end gap-4 mt-8">
-        <button className="px-6 py-2.5 text-sm font-medium text-gray-700 cursor-pointer">
+        <button
+          type="button"
+          className="px-6 py-2.5 text-sm font-medium text-gray-700 cursor-pointer"
+          onClick={() => {
+            formRef.current?.reset();
+            setIsEditOpen(false);
+            toast.info("Changes cancelled");
+          }}
+        >
           Cancel
         </button>
-        <button className="px-6 py-2.5 text-sm font-medium text-white bg-gray-900 rounded-full cursor-pointer hover:bg-gray-800 transition">
+        <button
+          type="submit"
+          className="px-6 py-2.5 text-sm font-medium text-white bg-gray-900 rounded-full cursor-pointer hover:bg-gray-800 transition"
+        >
           Save Changes
         </button>
       </div>
-    </div>
+    </form>
   );
 }

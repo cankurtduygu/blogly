@@ -24,10 +24,10 @@ export default function MostReadBlog() {
           key={blog._id}
           to={`/blogs/${blog._id}`}
           onClick={handleAuthAction}
-          className="flex items-center gap-4 bg-white rounded-xl p-4 shadow shadow-black/5 hover:-translate-y-0.5 transition duration-300"
+          className="flex items-center gap-4 bg-white rounded-xl p-3 sm:p-4 shadow shadow-black/5 hover:-translate-y-0.5 transition duration-300"
         >
           <img
-            className="w-32 h-28 object-cover rounded-lg shrink-0"
+            className="w-20 h-20 sm:w-32 sm:h-28 object-cover rounded-lg shrink-0"
             src={blog.image}
             alt={blog.title}
           />

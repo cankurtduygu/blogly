@@ -15,7 +15,7 @@ export default function BlogSection() {
 
   return (
     <div className="mt-8 max-w-7xl mx-auto px-4">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20">
         {/* The Latest */}
         <div>
           <h2 className="text-2xl font-semibold text-slate-900 mb-6">

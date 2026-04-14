@@ -1,6 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { cleanAuth, updateUserInfo } from "../features/authSlice";
+import {
+  cleanAuth,
+  selectCurrentUser,
+  updateUserInfo,
+  updateProfile,
+} from "../features/authSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import useAxios from "./useAxios";
@@ -12,6 +17,7 @@ const useAuthCall = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { axiosWithToken } = useAxios();
+  const currentUser = useSelector(selectCurrentUser);
 
   const signIn = async (userCredentials: SignInFormData) => {
     try {
@@ -26,7 +32,7 @@ const useAuthCall = () => {
       toast.success("Login başarılı");
     } catch (error) {
       toast.error("Login başarısız");
-      console.log("error:", error);
+      // console.log("error:", error);
     }
   };
 
@@ -55,7 +61,16 @@ const useAuthCall = () => {
     }
   };
 
-  return { signIn, signUp, signOut };
+  const updateUser = async (userData: Record<string, string>) => {
+    const { data } = await axiosWithToken.put(
+      `users/${currentUser?._id}`,
+      userData,
+    );
+    dispatch(updateProfile(data.new));
+    return data;
+  };
+
+  return { signIn, signUp, signOut, updateUser };
 };
 
 export default useAuthCall;
