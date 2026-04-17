@@ -17,6 +17,7 @@ import store from "./state/store";
 import { selectCurrentUser } from "./features/authSlice";
 import Write from "./pages/Write";
 import Profile from "./pages/Profile/Profile";
+import { Analytics } from "@vercel/analytics/react";
 
 function ProtectedRoute() {
   const user = useSelector(selectCurrentUser);
@@ -64,6 +65,7 @@ function App() {
     <Provider store={store}>
       <ToastContainer />
       <RouterProvider router={router} />
+      <Analytics />
     </Provider>
   );
 }
