@@ -17,7 +17,7 @@ export default function Hero() {
           <div className="flex items-center gap-4 mt-4 sm:mt-8 text-sm">
             <Link
               to="/sign-up"
-              className="flex items-center bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95 transition rounded-md px-7 h-11"
+              className="flex items-center bg-slate-900 hover:bg-slate-800 text-white active:scale-95 transition rounded-md px-7 h-11"
             >
               Get started
             </Link>

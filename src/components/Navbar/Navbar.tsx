@@ -47,7 +47,7 @@ const Navbar = () => {
                 y="28"
                 className={`text-[28px] font-bold ${isScrolled ? "fill-slate-900" : "fill-white"}`}
               >
-                Blog<tspan className="fill-indigo-500">ly</tspan>
+                Blog<tspan className="fill-slate-500">ly</tspan>
               </text>
             </svg>
           </Link>
@@ -68,7 +68,7 @@ const Navbar = () => {
               >
                 {link.name}
                 <div
-                  className={`${isScrolled ? "bg-indigo-500" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`}
+                  className={`${isScrolled ? "bg-slate-900" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`}
                 />
               </Link>
             ))}
@@ -89,7 +89,7 @@ const Navbar = () => {
                 </button>
                 <Link
                   to="/profile"
-                  className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-indigo-500 hover:bg-indigo-600" : "bg-white text-slate-900"}`}
+                  className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-slate-900 hover:bg-slate-800" : "bg-white text-slate-900"}`}
                 >
                   Profile
                 </Link>
@@ -104,7 +104,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/sign-up"
-                  className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-indigo-500 hover:bg-indigo-600" : "bg-white text-slate-900"}`}
+                  className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-slate-900 hover:bg-slate-800" : "bg-white text-slate-900"}`}
                 >
                   Get Started
                 </Link>
@@ -172,14 +172,14 @@ const Navbar = () => {
                     setIsMenuOpen(false);
                     navigate("/");
                   }}
-                  className="transition-all duration-500 text-slate-500 hover:text-indigo-500"
+                  className="transition-all duration-500 text-slate-500 hover:text-slate-900"
                 >
                   Sign Out
                 </button>
                 <Link
                   to="/profile"
                   onClick={() => setIsMenuOpen(false)}
-                  className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-full transition-all duration-500"
+                  className="bg-slate-900 hover:bg-slate-800 text-white px-8 py-2.5 rounded-full transition-all duration-500"
                 >
                   Profile
                 </Link>
@@ -188,13 +188,13 @@ const Navbar = () => {
               <>
                 <Link
                   to="/sign-in"
-                  className="transition-all duration-500 text-slate-500 hover:text-indigo-500"
+                  className="transition-all duration-500 text-slate-500 hover:text-slate-900"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/sign-up"
-                  className="bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-2.5 rounded-full transition-all duration-500"
+                  className="bg-slate-900 hover:bg-slate-800 text-white px-8 py-2.5 rounded-full transition-all duration-500"
                 >
                   Get Started
                 </Link>

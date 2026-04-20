@@ -75,7 +75,7 @@ export default function BlogDetail() {
 
       <article className="max-w-3xl mx-auto px-4 py-10">
         {/* Kategori */}
-        <span className="inline-block bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1 rounded-full mb-4">
+        <span className="inline-block bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-full mb-4">
           {categoryId?.name || "Category"}
         </span>
 
@@ -86,7 +86,7 @@ export default function BlogDetail() {
 
         {/* Yazar bilgisi */}
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center font-bold text-indigo-600">
+          <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-700">
             {userId?.username?.[0]?.toUpperCase() || "?"}
           </div>
           <div>
@@ -131,7 +131,7 @@ export default function BlogDetail() {
           </button>
 
           <button
-            className="flex items-center gap-1.5 text-slate-500 hover:text-indigo-600 transition cursor-pointer"
+            className="flex items-center gap-1.5 text-slate-500 hover:text-slate-700 transition cursor-pointer"
             onClick={() => setIsCommentOpen(true)}
           >
             <FaRegCommentDots className="w-[18px] h-[18px]" />
@@ -163,7 +163,7 @@ export default function BlogDetail() {
                   key={c._id}
                   className="flex gap-3 py-4 border-b border-slate-100 last:border-0"
                 >
-                  <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center font-bold text-indigo-600 text-xs shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-700 text-xs shrink-0">
                     {c.username?.[0]?.toUpperCase() || "?"}
                   </div>
                   <div className="flex-1">

@@ -33,7 +33,7 @@ export default function UserProfileCard() {
           <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white/20 shrink-0">
             <img
               className="w-full h-full object-cover object-top"
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200"
+              src={currentUser?.image || "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200"}
               alt="userImage2"
             />
           </div>

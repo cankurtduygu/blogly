@@ -65,7 +65,7 @@ function App() {
     <Provider store={store}>
       <ToastContainer />
       <RouterProvider router={router} />
-      <Analytics />
+      <Analytics /> 
     </Provider>
   );
 }

@@ -34,7 +34,6 @@ export default function BlogCard({
     }
   };
 
-
   return (
     <>
       <div className="p-4 bg-white border border-gray-200 hover:-translate-y-1 transition duration-300 rounded-lg shadow shadow-black/10 w-full">
@@ -55,20 +54,24 @@ export default function BlogCard({
         <div className="flex items-center gap-2 ml-2 mt-2">
           <img
             className="w-8 h-8 rounded-full object-cover"
-            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${blog.userId}`}
+            src={
+              blog.userId === currentUser?._id && currentUser?.image
+                ? currentUser.image
+                : `https://api.dicebear.com/7.x/avataaars/svg?seed=${blog.userId}`
+            }
             alt="author"
           />
           <span className="text-slate-900 text-sm font-medium">
             {authorName}
           </span>
           <span className="text-slate-400">|</span>
-          <span className="text-indigo-500 text-sm font-medium">
+          <span className="text-slate-500 text-sm font-medium">
             {catName || "Uncategorized"}
           </span>
         </div>
-        <p className="text-gray-900 text-xl font-semibold ml-2 mt-4 line-clamp-2">
+        <h3 className="text-gray-900 text-xl font-semibold ml-2 mt-4 line-clamp-2">
           {blog.title}
-        </p>
+        </h3>
 
         <p className="text-zinc-400 text-sm/6 mt-2 ml-2 mb-2">
           {blog.content.length > 100
@@ -79,7 +82,7 @@ export default function BlogCard({
           <Link
             to={`/blogs/${blog._id}`}
             onClick={handleAuthAction}
-            className="bg-indigo-600 hover:bg-indigo-700 transition cursor-pointer px-6 py-2 font-medium rounded-md text-white text-sm"
+            className="bg-slate-900 hover:bg-slate-800 transition cursor-pointer px-6 py-2 font-medium rounded-md text-white text-sm"
           >
             Read More
           </Link>
@@ -95,7 +98,7 @@ export default function BlogCard({
             <Link
               to={`/blogs/${blog._id}`}
               onClick={handleAuthAction}
-              className="flex items-center gap-1 hover:text-indigo-600 transition"
+              className="flex items-center gap-1 hover:text-slate-700 transition"
             >
               <FaRegComment />
               <span>{blog.comments.length}</span>
@@ -116,7 +119,9 @@ export default function BlogCard({
                   <div className="absolute right-0 top-6 bg-white border border-gray-200 rounded-lg shadow-lg py-2 w-40 z-10">
                     <button
                       onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}/blogs/${blog._id}`);
+                        navigator.clipboard.writeText(
+                          `${window.location.origin}/blogs/${blog._id}`,
+                        );
                         toast.success("Link copied!");
                         setMenuOpen(false);
                       }}

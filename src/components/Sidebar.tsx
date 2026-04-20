@@ -68,7 +68,7 @@ export default function Sidebar({
 
         <div className="p-4 border-t">
           <textarea
-            className="w-full border border-gray-300 rounded-lg p-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-gray-300 rounded-lg p-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-slate-900"
             rows={3}
             placeholder="Write a comment..."
             value={commentText}
@@ -76,7 +76,7 @@ export default function Sidebar({
           />
           <button
             onClick={onSubmit}
-            className="mt-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium py-2 rounded-lg transition"
+            className="mt-2 w-full bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium py-2 rounded-lg transition"
           >
             Send
           </button>

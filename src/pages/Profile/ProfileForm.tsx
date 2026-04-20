@@ -1,9 +1,24 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { LuUser, LuMail, LuImage, LuAtSign } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../features/authSlice";
 import useAuthCall from "../../hooks/useAuthCall";
 import { toast } from "react-toastify";
+
+// Cloudinary upload fonksiyonu
+const cloudinaryUpload = async (file: File) => {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", "blog_upload"); 
+
+  const res = await fetch("https://api.cloudinary.com/v1_1/dgjitpdf4/image/upload", {
+    method: "POST",
+    body: data,
+  });
+
+  const result = await res.json();
+  return result;
+};
 
 export default function ProfileForm({
   isEditOpen,
@@ -25,6 +40,27 @@ export default function ProfileForm({
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const userData = Object.fromEntries(formData) as Record<string, string>;
+
+    // File input'tan gelen boş objeyi sil, backend string bekliyor
+    delete userData.image;
+
+    // Eğer dosya seçildiyse önce Cloudinary'e upload et
+    if (profilImage && profilImage[0]) {
+      try {
+        const uploadResult = await cloudinaryUpload(profilImage[0]);
+        console.log("Cloudinary upload sonucu:", uploadResult);
+        if (uploadResult.secure_url) {
+          userData.image = uploadResult.secure_url;
+        } else {
+          toast.error("Image upload failed: " + uploadResult?.error?.message);
+          return;
+        }
+      } catch (err) {
+        toast.error("Image upload failed");
+        return;
+      }
+    }
+
     try {
       await updateUser(userData);
       toast.success("Profile updated successfully");
@@ -33,6 +69,7 @@ export default function ProfileForm({
       toast.error("Failed to update profile");
     }
   };
+    const [profilImage, setProfilImage] = useState<FileList | null>(null);
 
   return (
     <form
@@ -116,12 +153,18 @@ export default function ProfileForm({
         <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
           <LuImage className="text-gray-400 shrink-0" size={18} />
           <input
-            name="image"
-            type="url"
+            name=
+            "image"
+            type="file"
             placeholder="Image URL"
-            defaultValue={currentUser?.image}
             disabled={!isEditOpen}
             className="w-full outline-none text-sm text-gray-700 placeholder-gray-400 bg-transparent"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              if (e.target.files) {
+                setProfilImage(e.target.files);
+              }
+              console.log(e.target.files);
+            }}
           />
         </div>
       </div>

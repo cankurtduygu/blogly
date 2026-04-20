@@ -55,7 +55,7 @@ export default function Blogs() {
             />
             <button
               type="submit"
-              className="bg-indigo-500 w-32 h-9 rounded-full text-sm text-white mr-1.25"
+              className="bg-slate-900 w-32 h-9 rounded-full text-sm text-white mr-1.25"
             >
               Search
             </button>
@@ -98,7 +98,7 @@ export default function Blogs() {
           />
           <label
             htmlFor="all"
-            className="cursor-pointer rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-indigo-600 peer-checked:text-white"
+            className="cursor-pointer rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-slate-900 peer-checked:text-white"
           >
             All
           </label>
@@ -118,7 +118,7 @@ export default function Blogs() {
             />
             <label
               htmlFor={category._id}
-              className="cursor-pointer rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-indigo-600 peer-checked:text-white"
+              className="cursor-pointer rounded-full py-2 px-4 text-gray-500 transition-colors duration-200 peer-checked:bg-slate-900 peer-checked:text-white"
             >
               {category.name}
             </label>
@@ -196,7 +196,7 @@ export default function Blogs() {
                     onClick={() => setSearchParams({ page: String(num) })}
                     className={`h-10 w-10 flex items-center justify-center aspect-square ${
                       num === page
-                        ? "text-indigo-500 border border-indigo-200 rounded-full"
+                        ? "text-slate-900 border border-slate-300 rounded-full"
                         : ""
                     }`}
                   >

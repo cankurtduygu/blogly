@@ -24,9 +24,9 @@ export default function LatestBlog() {
         src={latestBlog.image}
         alt={latestBlog.title}
       />
-      <p className="text-gray-900 text-xl font-semibold ml-2 mt-4">
+      <h3 className="text-gray-900 text-xl font-semibold ml-2 mt-4">
         {latestBlog.title}
-      </p>
+      </h3>
       <p className="text-zinc-400 text-sm/6 mt-2 ml-2 mb-2">
         {(() => {
           const stripped = latestBlog.content.replace(/<[^>]*>/g, "");
@@ -38,7 +38,7 @@ export default function LatestBlog() {
       <Link
         to={`/blogs/${latestBlog._id}`}
         onClick={handleAuthAction}
-        className="inline-block bg-indigo-600 hover:bg-indigo-700 transition cursor-pointer mt-4 mb-3 ml-2 px-6 py-2 font-medium rounded-md text-white text-sm"
+        className="inline-block bg-slate-900 hover:bg-slate-800 transition cursor-pointer mt-4 mb-3 ml-2 px-6 py-2 font-medium rounded-md text-white text-sm"
       >
         Read More
       </Link>

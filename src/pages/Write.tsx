@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { Controller } from "react-hook-form";
 import Tiptap from "../components/Tiptap";
 
-
 export default function Write() {
   const { createPost } = useBlogCall();
   const navigate = useNavigate();
@@ -44,9 +43,7 @@ export default function Write() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">
-        Create New Blog
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">Create New Blog</h1>
 
       <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         {/* Title */}
@@ -61,7 +58,7 @@ export default function Write() {
             id="title"
             type="text"
             placeholder="Enter your blog title..."
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
             {...register("title")}
             disabled={isSubmitting}
           />
@@ -80,7 +77,7 @@ export default function Write() {
             id="category"
             {...register("categoryId")}
             disabled={isSubmitting}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent"
           >
             <option value="">Select a category</option>
             {categories.map((cat) => (
@@ -137,7 +134,7 @@ export default function Write() {
             id="publish"
             type="checkbox"
             defaultChecked
-            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            className="w-4 h-4 text-slate-900 border-gray-300 rounded focus:ring-slate-900"
             {...register("isPublish")}
             disabled={isSubmitting}
           />
@@ -149,7 +146,7 @@ export default function Write() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
+          className="w-full py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
         >
           Publish Blog
         </button>

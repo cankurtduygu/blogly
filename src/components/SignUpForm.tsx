@@ -316,7 +316,7 @@ export default function SignUpForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-8 w-full h-11 rounded-full text-white bg-indigo-500 hover:bg-indigo-600 transition-colors"
+            className="mt-8 w-full h-11 rounded-full text-white bg-slate-900 hover:bg-slate-800 transition-colors"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">
@@ -329,7 +329,7 @@ export default function SignUpForm() {
           </button>
           <p className="text-slate-500 text-sm mt-4">
             Already have an account?{" "}
-            <Link className="text-indigo-500 hover:underline" to="/sign-in">
+            <Link className="text-slate-700 hover:underline" to="/sign-in">
               Sign in
             </Link>
           </p>
