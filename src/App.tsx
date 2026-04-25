@@ -4,18 +4,18 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from "./components/layout/MainLayout";
 import Home from "./pages/Home/Home";
-import About from "./pages/About";
-import BlogDetail from "./pages/BlogDetail";
-import SignUp from "./pages/SignUp/SignUp";
-import SignIn from "./pages/SignIn/SignIn";
+import About from "./pages/About/About";
+import BlogDetail from "./pages/Blog/BlogDetail";
+import SignUp from "./pages/Auth/SignUp";
+import SignIn from "./pages/Auth/SignIn";
 import { Provider, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import store from "./state/store";
-import { selectCurrentUser } from "./features/authSlice";
-import Write from "./pages/Write";
+import store from "./store/store";
+import { selectCurrentUser } from "./store/authSlice";
+import Write from "./pages/Write/Write";
 import Profile from "./pages/Profile/Profile";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -65,7 +65,7 @@ function App() {
     <Provider store={store}>
       <ToastContainer />
       <RouterProvider router={router} />
-      <Analytics /> 
+      <Analytics />
     </Provider>
   );
 }

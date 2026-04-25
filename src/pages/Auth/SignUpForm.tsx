@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { signUpSchema } from "../lib/schemas";
+import { signUpSchema } from "../../lib/schemas";
 import type z from "zod";
-import useAuthCall from "../hooks/useAuthCall";
+import useAuthCall from "../../hooks/useAuthCall";
 import { toast } from "react-toastify";
 
 export default function SignUpForm() {

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import type { iNavLink } from "./Navbar.types";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../features/authSlice";
-import useAuthCall from "../../hooks/useAuthCall";
+import { selectCurrentUser } from "../../../store/authSlice";
+import useAuthCall from "../../../hooks/useAuthCall";
 import { toast } from "react-toastify";
 
 const Navbar = () => {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectCategories, type Blog } from "../../features/blogSlice";
-import { selectCurrentUser } from "../../features/authSlice";
-import BlogCard from "../../components/BlogCard";
+import { selectCategories, type Blog } from "../../store/blogSlice";
+import { selectCurrentUser } from "../../store/authSlice";
+import BlogCard from "../../components/blog/BlogCard";
 import useBlogCall from "../../hooks/useBlogCall";
 import { toast } from "react-toastify";
 

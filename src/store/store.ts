@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
-import authReducer from "../features/authSlice";
-import blogReducer from "../features/blogSlice";
+import authReducer from "./authSlice";
+import blogReducer from "./blogSlice";
 import createWebStorage from "redux-persist/es/storage/createWebStorage";
 import {
   FLUSH,

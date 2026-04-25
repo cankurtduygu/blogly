@@ -1,6 +1,6 @@
-import type { Blog } from "../features/blogSlice";
+import type { Blog } from "../../store/blogSlice";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../features/authSlice";
+import { selectCurrentUser } from "../../store/authSlice";
 import { FaHeart, FaRegHeart, FaRegComment } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -34,6 +34,15 @@ export default function BlogCard({
     }
   };
 
+  const slugify = (text: any) => {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  };
+
   return (
     <>
       <div className="p-4 bg-white border border-gray-200 hover:-translate-y-1 transition duration-300 rounded-lg shadow shadow-black/10 w-full">
@@ -42,7 +51,7 @@ export default function BlogCard({
           src={blog.image}
           alt={blog.title}
         />
-        <p className="text-zinc-400 text-sm/6 mt-2 ml-2 mb-2">
+        <p className="text-zinc-600 text-sm/6 mt-2 ml-2 mb-2">
           {blog.createdAt
             ? new Date(blog.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -52,20 +61,22 @@ export default function BlogCard({
             : ""}
         </p>
         <div className="flex items-center gap-2 ml-2 mt-2">
-          <img
-            className="w-8 h-8 rounded-full object-cover"
-            src={
-              blog.userId === currentUser?._id && currentUser?.image
-                ? currentUser.image
-                : `https://api.dicebear.com/7.x/avataaars/svg?seed=${blog.userId}`
-            }
-            alt="author"
-          />
+          {blog.userId === currentUser?._id && currentUser?.image ? (
+            <img
+              className="w-8 h-8 rounded-full object-cover"
+              src={currentUser.image}
+              alt="author"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs shrink-0">
+              {authorName?.[0]?.toUpperCase() || "?"}
+            </div>
+          )}
           <span className="text-slate-900 text-sm font-medium">
             {authorName}
           </span>
-          <span className="text-slate-400">|</span>
-          <span className="text-slate-500 text-sm font-medium">
+          <span className="text-slate-500">|</span>
+          <span className="text-slate-700 text-sm font-medium">
             {catName || "Uncategorized"}
           </span>
         </div>
@@ -73,20 +84,20 @@ export default function BlogCard({
           {blog.title}
         </h3>
 
-        <p className="text-zinc-400 text-sm/6 mt-2 ml-2 mb-2">
+        <p className="text-zinc-600 text-sm/6 mt-2 ml-2 mb-2">
           {blog.content.length > 100
             ? blog.content.slice(0, 100).replace(/<[^>]*>/g, "") + "..."
             : blog.content.replace(/<[^>]*>/g, "")}
         </p>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-4 mb-3 ml-2 mr-2">
           <Link
-            to={`/blogs/${blog._id}`}
+            to={`/blogs/${blog._id}-${slugify(blog.title)}`}
             onClick={handleAuthAction}
             className="bg-slate-900 hover:bg-slate-800 transition cursor-pointer px-6 py-2 font-medium rounded-md text-white text-sm"
           >
             Read More
           </Link>
-          <div className="flex items-center gap-4 text-gray-500 text-sm">
+          <div className="flex items-center gap-4 text-gray-600 text-sm">
             <Link
               to={`/blogs/${blog._id}`}
               onClick={handleAuthAction}

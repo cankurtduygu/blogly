@@ -5,11 +5,11 @@ import {
   selectCategories,
   selectDetails,
   selectBlogLoading,
-} from "../features/blogSlice";
-import { selectCurrentUser } from "../features/authSlice";
+} from "../../store/blogSlice";
+import { selectCurrentUser } from "../../store/authSlice";
 import BlogCard from "./BlogCard";
 import { useSearchParams } from "react-router-dom";
-import useBlogCall from "../hooks/useBlogCall";
+import useBlogCall from "../../hooks/useBlogCall";
 
 export default function Blogs() {
   const categories = useSelector(selectCategories);

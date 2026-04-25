@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import type z from "zod";
-import { signInSchema } from "../lib/schemas";
+import { signInSchema } from "../../lib/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useAuthCall from "../hooks/useAuthCall";
+import useAuthCall from "../../hooks/useAuthCall";
 
 export default function SignInForm() {
   type SignInFormData = z.infer<typeof signInSchema>;

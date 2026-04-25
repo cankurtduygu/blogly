@@ -5,7 +5,7 @@ import {
   selectCurrentUser,
   updateUserInfo,
   updateProfile,
-} from "../features/authSlice";
+} from "../store/authSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import useAxios from "./useAxios";

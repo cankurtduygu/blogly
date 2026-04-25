@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { selectToken } from "../features/authSlice";
+import { selectToken } from "../store/authSlice";
 import {
   fetchFail,
   fetchStart,
@@ -10,7 +10,7 @@ import {
   fetchBlogByIdSuccess,
   fetchFinish,
   fetchCategoriesSuccess,
-} from "../features/blogSlice";
+} from "../store/blogSlice";
 import { useSelector } from "react-redux";
 import type { WriteFormData } from "../lib/schemas";
 
@@ -140,7 +140,7 @@ const useBlogCall = () => {
       dispatch(fetchStart());
 
       const { data } = await axios(
-        `${BASE_URL}blogs?sort[countOfVisitors]=desc&limit=3`,
+        `${BASE_URL}blogs?sort[countOfVisitors]=desc&limit=9`,
         authHeaders,
       );
 

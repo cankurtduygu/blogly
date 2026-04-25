@@ -1,14 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
-import { selectBlog, fetchBlogByIdSuccess } from "../features/blogSlice";
+import { selectBlog, fetchBlogByIdSuccess } from "../../store/blogSlice";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart, FaEye, FaRegCommentDots } from "react-icons/fa";
-import { selectCurrentUser } from "../features/authSlice";
-import useBlogCall from "../hooks/useBlogCall";
-import Sidebar from "../components/Sidebar";
+import { selectCurrentUser } from "../../store/authSlice";
+import useBlogCall from "../../hooks/useBlogCall";
+import Sidebar from "../../components/ui/Sidebar";
 
 export default function BlogDetail() {
   const { id } = useParams();
+  const realId = id?.split("-")[0];
   const dispatch = useDispatch();
   const { getBlogsById, toggleLike, postComment } = useBlogCall();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,8 +19,8 @@ export default function BlogDetail() {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
 
   useEffect(() => {
-    if (id) getBlogsById(id);
-  }, [id]);
+    if (realId) getBlogsById(realId);
+  }, [realId]);
 
   if (!blog || !blog.data)
     return <div className="text-center mt-20 text-lg">Loading...</div>;
@@ -110,7 +111,7 @@ export default function BlogDetail() {
           <img
             src={image}
             alt={title}
-            className="w-full h-72 md:h-[28rem] object-cover"
+            className="w-full h-72 md:h-112 object-cover"
           />
         </div>
 

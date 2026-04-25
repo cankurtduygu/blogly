@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+* {
+  font-family: 'Public Sans', sans-serif;
+}
+
+.tiptap {
+  min-height: 100%;
+  outline: none;
+}
+.tiptap:focus {
+  outline: none;
+}
+
+/* Swiper */
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  object-fit: cover;
+}

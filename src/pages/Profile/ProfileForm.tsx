@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { LuUser, LuMail, LuImage, LuAtSign } from "react-icons/lu";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../features/authSlice";
+import { selectCurrentUser } from "../../store/authSlice";
 import useAuthCall from "../../hooks/useAuthCall";
 import { toast } from "react-toastify";
 
@@ -9,12 +9,15 @@ import { toast } from "react-toastify";
 const cloudinaryUpload = async (file: File) => {
   const data = new FormData();
   data.append("file", file);
-  data.append("upload_preset", "blog_upload"); 
+  data.append("upload_preset", "blog_upload");
 
-  const res = await fetch("https://api.cloudinary.com/v1_1/dgjitpdf4/image/upload", {
-    method: "POST",
-    body: data,
-  });
+  const res = await fetch(
+    "https://api.cloudinary.com/v1_1/dgjitpdf4/image/upload",
+    {
+      method: "POST",
+      body: data,
+    },
+  );
 
   const result = await res.json();
   return result;
@@ -69,7 +72,7 @@ export default function ProfileForm({
       toast.error("Failed to update profile");
     }
   };
-    const [profilImage, setProfilImage] = useState<FileList | null>(null);
+  const [profilImage, setProfilImage] = useState<FileList | null>(null);
 
   return (
     <form
@@ -153,8 +156,7 @@ export default function ProfileForm({
         <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
           <LuImage className="text-gray-400 shrink-0" size={18} />
           <input
-            name=
-            "image"
+            name="image"
             type="file"
             placeholder="Image URL"
             disabled={!isEditOpen}

@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
-import { selectCategories } from "../features/blogSlice";
+import { selectCategories } from "../../store/blogSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { writeSchema, type WriteFormData } from "../lib/schemas";
-import useBlogCall from "../hooks/useBlogCall";
+import { writeSchema, type WriteFormData } from "../../lib/schemas";
+import useBlogCall from "../../hooks/useBlogCall";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Controller } from "react-hook-form";
-import Tiptap from "../components/Tiptap";
+import Tiptap from "../../components/ui/Tiptap";
 
 export default function Write() {
   const { createPost } = useBlogCall();

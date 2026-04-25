@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { selectLatestBlog } from "../features/blogSlice";
-import { selectCurrentUser } from "../features/authSlice";
+import { selectLatestBlog } from "../../store/blogSlice";
+import { selectCurrentUser } from "../../store/authSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 

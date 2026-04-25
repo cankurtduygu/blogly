@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useBlogCall from "../hooks/useBlogCall";
+import useBlogCall from "../../hooks/useBlogCall";
 import Blogs from "./Blogs";
 import LatestBlog from "./LatestBlog";
 import MostReadBlog from "./MostReadBlog";
@@ -15,11 +15,11 @@ export default function BlogSection() {
 
   return (
     <div className="mt-8 max-w-7xl mx-auto px-4">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20">
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-8 lg:gap-16">
         {/* The Latest */}
         <div>
           <h2 className="text-2xl font-semibold text-slate-900 mb-6">
-            The Latest
+            The Latest Blog
           </h2>
           <LatestBlog />
         </div>
@@ -27,7 +27,7 @@ export default function BlogSection() {
         {/* Top Reads */}
         <div>
           <h2 className="text-2xl font-semibold text-slate-900 mb-6">
-            Top Reads
+            Trending on Blogly
           </h2>
           <MostReadBlog />
         </div>

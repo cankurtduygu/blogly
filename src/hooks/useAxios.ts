@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { selectToken } from "../features/authSlice";
+import { selectToken } from "../store/authSlice";
 import axios from "axios";
 
 const useAxios = () => {
