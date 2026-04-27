@@ -29,10 +29,10 @@ interface Comment {
 
 interface PaginationDetails {
   pages: {
-    previous: number | false;
+    previous: number | false;/// önceki sayfa var mı?
     current: number;
-    next: number | false;
-    total: number;
+    next: number | false;// sonraki sayfa var mı?
+    total: number;// toplam sayfa sayısı
   } | false;
   totalRecords: number;
 }
@@ -75,8 +75,9 @@ export const blogSlice = createSlice({
     },
     fetchSuccess: (state, { payload }) => {
       state.error = null;
-      state.blogs = payload.data;
-      state.details = payload.details;
+      state.blogs = payload.data;// o sayfanın blogları
+      state.details = payload.details;// sayfalama bilgisi
+      //API'den gelen details objesi Redux'a kaydedilir.
     },
     fetchCategoriesSuccess: (state, { payload }) => {
       state.error = null;

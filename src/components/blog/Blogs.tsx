@@ -23,12 +23,30 @@ export default function Blogs() {
 
   // Mevcut sayfayı oku, yoksa 1 kabul et
   const page = Number(searchParams.get("page")) || 1;
+  // Arama terimini URL'den oku
+  const searchTerm = searchParams.get("search") || "";
+  // Input alanı için yerel state (kullanıcı yazarken URL'i değiştirmeden tutuyoruz)
+  const [inputValue, setInputValue] = useState<string>(searchTerm);
 
   const { getBlogs } = useBlogCall();
 
   useEffect(() => {
-    getBlogs(page, 6, selectedCategory);
-  }, [page, selectedCategory]);
+    getBlogs(page, 6, selectedCategory, searchTerm);
+  }, [page, selectedCategory, searchTerm]);
+
+  // Sayfa değişirken mevcut search ve category korunur
+  const buildPageParams = (newPage: number) => {
+    const params: Record<string, string> = { page: String(newPage) };
+    if (searchTerm) params.search = searchTerm;
+    return params;
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearchParams({ page: "1", ...(inputValue && { search: inputValue }) });
+  };
+
+
 
   return (
     <>
@@ -39,7 +57,7 @@ export default function Blogs() {
           </h2>
         </div>
         <div>
-          <div className="flex items-center border pl-4 gap-2 bg-white border-gray-500/30 h-11.5 rounded-full overflow-hidden max-w-md w-full">
+          <form onSubmit={handleSearch} className="flex items-center border pl-4 gap-2 bg-white border-gray-500/30 h-11.5 rounded-full overflow-hidden max-w-md w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
@@ -51,6 +69,9 @@ export default function Blogs() {
             </svg>
             <input
               type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Search blogs..."
               className="w-full h-full outline-none text-sm text-gray-500"
             />
             <button
@@ -59,7 +80,7 @@ export default function Blogs() {
             >
               Search
             </button>
-          </div>
+          </form>
         </div>
       </div>
 
@@ -70,6 +91,7 @@ export default function Blogs() {
           value={selectedCategory}
           onChange={(e) => {
             setSelectedCategory(e.target.value);
+            setInputValue("");
             setSearchParams({ page: "1" });
           }}
         >
@@ -93,6 +115,7 @@ export default function Blogs() {
             checked={selectedCategory === ""}
             onChange={() => {
               setSelectedCategory("");
+              setInputValue("");
               setSearchParams({ page: "1" });
             }}
           />
@@ -113,6 +136,7 @@ export default function Blogs() {
               checked={selectedCategory === category._id}
               onChange={() => {
                 setSelectedCategory(category._id);
+                setInputValue("");
                 setSearchParams({ page: "1" });
               }}
             />
@@ -165,7 +189,7 @@ export default function Blogs() {
             aria-label="prev"
             onClick={() => {
               if (details.pages && details.pages.previous) {
-                setSearchParams({ page: String(page - 1) });
+                setSearchParams(buildPageParams(page - 1));
               }
             }}
             disabled={!details.pages || !details.pages.previous}
@@ -193,7 +217,7 @@ export default function Blogs() {
                 (num) => (
                   <button
                     key={num}
-                    onClick={() => setSearchParams({ page: String(num) })}
+                    onClick={() => setSearchParams(buildPageParams(num))}
                     className={`h-10 w-10 flex items-center justify-center aspect-square ${
                       num === page
                         ? "text-slate-900 border border-slate-300 rounded-full"
@@ -211,7 +235,7 @@ export default function Blogs() {
             aria-label="next"
             onClick={() => {
               if (details.pages && details.pages.next) {
-                setSearchParams({ page: String(page + 1) });
+                setSearchParams(buildPageParams(page + 1));
               }
             }}
             disabled={!details.pages || !details.pages.next}

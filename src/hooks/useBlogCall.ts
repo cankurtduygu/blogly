@@ -24,13 +24,16 @@ const useBlogCall = () => {
     ? { headers: { Authorization: `Token ${token}` } }
     : {};
 
-  const getBlogs = async (page = 1, limit = 6, categoryId = "") => {
+  const getBlogs = async (page = 1, limit = 6, categoryId = "", search = "") => {
     try {
       dispatch(fetchStart());
 
       let url = `${BASE_URL}blogs?page=${page}&limit=${limit}`;
       if (categoryId) {
         url += `&filter[categoryId]=${categoryId}`;
+      }
+      if (search) {
+        url += `&search[title]=${encodeURIComponent(search)}`;
       }
       const { data } = await axios(url, authHeaders);
 

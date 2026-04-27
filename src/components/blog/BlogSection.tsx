@@ -34,7 +34,9 @@ export default function BlogSection() {
       </div>
 
       <hr className="border-slate-200 mt-10" />
-      <Blogs />
+      <div className="mb-16">
+        <Blogs />
+      </div>
     </div>
   );
 }
