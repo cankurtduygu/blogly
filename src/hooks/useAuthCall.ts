@@ -29,9 +29,9 @@ const useAuthCall = () => {
       navigate("/");
       dispatch(updateUserInfo(data));
 
-      toast.success("Login başarılı");
+      toast.success("Login successful");
     } catch (error) {
-      toast.error("Login başarısız");
+      toast.error("Login failed");
       // console.log("error:", error);
     }
   };
