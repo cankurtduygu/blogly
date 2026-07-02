@@ -6,7 +6,6 @@ import {
   selectDetails,
   selectBlogLoading,
 } from "../../store/blogSlice";
-import { selectCurrentUser } from "../../store/authSlice";
 import BlogCard from "./BlogCard";
 import { useSearchParams } from "react-router-dom";
 import useBlogCall from "../../hooks/useBlogCall";
@@ -14,7 +13,6 @@ import useBlogCall from "../../hooks/useBlogCall";
 export default function Blogs() {
   const categories = useSelector(selectCategories);
   const blogs = useSelector(selectBlogs);
-  const currentUser = useSelector(selectCurrentUser);
   const details = useSelector(selectDetails);
   const loading = useSelector(selectBlogLoading);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
