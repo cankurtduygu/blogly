@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/authSlice";
 import useAuthCall from "../../hooks/useAuthCall";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 // Cloudinary upload fonksiyonu
 const cloudinaryUpload = async (file: File) => {
@@ -68,8 +69,14 @@ export default function ProfileForm({
       await updateUser(userData);
       toast.success("Profile updated successfully");
       setIsEditOpen(false);
-    } catch {
-      toast.error("Failed to update profile");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Failed to update profile",
+        );
+      } else {
+        toast.error("Failed to update profile");
+      }
     }
   };
   const [profilImage, setProfilImage] = useState<FileList | null>(null);
