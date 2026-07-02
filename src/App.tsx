@@ -13,11 +13,12 @@ import SignIn from "./pages/Auth/SignIn";
 import { Provider, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import store from "./store/store";
+import store, { persistor } from "./store/store";
 import { selectCurrentUser } from "./store/authSlice";
 import Write from "./pages/Write/Write";
 import Profile from "./pages/Profile/Profile";
 import { Analytics } from "@vercel/analytics/react";
+import { PersistGate } from "redux-persist/lib/integration/react";
 
 function ProtectedRoute() {
   const user = useSelector(selectCurrentUser);
@@ -63,9 +64,11 @@ const router = createBrowserRouter([
 function App() {
   return (
     <Provider store={store}>
-      <ToastContainer />
-      <RouterProvider router={router} />
-      <Analytics />
+      <PersistGate loading={null} persistor={persistor}>
+        <ToastContainer />
+        <RouterProvider router={router} />
+        <Analytics />
+      </PersistGate>
     </Provider>
   );
 }

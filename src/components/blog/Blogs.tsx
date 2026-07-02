@@ -46,8 +46,6 @@ export default function Blogs() {
     setSearchParams({ page: "1", ...(inputValue && { search: inputValue }) });
   };
 
-
-
   return (
     <>
       <div className="flex flex-col md:flex-row items-start justify-between mt-10 gap-6">
@@ -57,7 +55,10 @@ export default function Blogs() {
           </h2>
         </div>
         <div>
-          <form onSubmit={handleSearch} className="flex items-center border pl-4 gap-2 bg-white border-gray-500/30 h-11.5 rounded-full overflow-hidden max-w-md w-full">
+          <form
+            onSubmit={handleSearch}
+            className="flex items-center border pl-4 gap-2 bg-white border-gray-500/30 h-11.5 rounded-full overflow-hidden max-w-md w-full"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
@@ -165,12 +166,11 @@ export default function Blogs() {
             ))
           : blogs.map((blog) => {
               const catName =
-                categories.find((cat) => cat._id === blog.categoryId)?.name ||
+                categories.find((cat) => cat._id === blog.categoryId._id)?.name ||
                 null;
-              const authorName =
-                currentUser && currentUser._id === blog.userId
-                  ? `${currentUser.firstName} ${currentUser.lastName}`
-                  : "Anonymous";
+              const authorName = blog.userId?.firstName
+                ? `${blog.userId.firstName} ${blog.userId.lastName}`
+                : "Anonymous";
               return (
                 <BlogCard
                   key={blog._id}

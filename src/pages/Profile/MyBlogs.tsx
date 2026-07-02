@@ -39,7 +39,7 @@ export default function MyBlogs() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {myBlogs.map((blog) => {
           const catName =
-            categories.find((c) => c._id === blog.categoryId)?.name ?? null;
+            categories.find((c) => c._id === blog.categoryId._id)?.name ?? null;
           return (
             <BlogCard
               key={blog._id}

@@ -5,8 +5,17 @@ export interface Blog {
   title: string;
   content: string;
   image: string;
-  categoryId: string;
-  userId: string;
+  categoryId: {
+    _id: string;
+    name: string;
+  };
+  userId: {
+    _id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    image?: string;
+  };
   likes: string[];
   comments: string[];
   countOfVisitors?: number;

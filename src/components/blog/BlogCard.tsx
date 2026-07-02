@@ -61,7 +61,7 @@ export default function BlogCard({
             : ""}
         </p>
         <div className="flex items-center gap-2 ml-2 mt-2">
-          {blog.userId === currentUser?._id && currentUser?.image ? (
+          {blog.userId?._id === currentUser?._id && currentUser?.image ? (
             <img
               className="w-8 h-8 rounded-full object-cover"
               src={currentUser.image}
