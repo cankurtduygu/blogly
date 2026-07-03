@@ -5,10 +5,11 @@ import { signUpSchema } from "../../lib/schemas";
 import type z from "zod";
 import useAuthCall from "../../hooks/useAuthCall";
 import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function SignUpForm() {
   type SignUpFormData = z.infer<typeof signUpSchema>;
-  const { signUp } = useAuthCall();
+  const { signUp, googleLogin } = useAuthCall();
   const navigate = useNavigate();
 
   const {
@@ -60,15 +61,18 @@ export default function SignUpForm() {
             Welcome! Please sign up to continue
           </p>
 
-          <button
-            type="button"
-            className="w-full mt-8 bg-slate-100 flex items-center justify-center h-12 rounded-full hover:bg-slate-200 transition-colors"
-          >
-            <img
-              src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
-              alt="googleLogo"
+          <div className="w-full mt-8 flex justify-center">
+            <GoogleLogin
+              onSuccess={(res) => {
+                if (res.credential) googleLogin(res.credential);
+              }}
+              onError={() => toast.error("Google sign up failed")}
+              theme="outline"
+              size="large"
+              text="signup_with"
+              width="384"
             />
-          </button>
+          </div>
 
           <div className="flex items-center gap-4 w-full my-5">
             <div className="w-full h-px bg-slate-300"></div>

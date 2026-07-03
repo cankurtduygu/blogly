@@ -19,6 +19,7 @@ import Write from "./pages/Write/Write";
 import Profile from "./pages/Profile/Profile";
 import { Analytics } from "@vercel/analytics/react";
 import { PersistGate } from "redux-persist/lib/integration/react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function ProtectedRoute() {
   const user = useSelector(selectCurrentUser);
@@ -63,13 +64,15 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ToastContainer />
-        <RouterProvider router={router} />
-        <Analytics />
-      </PersistGate>
-    </Provider>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ToastContainer />
+          <RouterProvider router={router} />
+          <Analytics />
+        </PersistGate>
+      </Provider>
+    </GoogleOAuthProvider>
   );
 }
 

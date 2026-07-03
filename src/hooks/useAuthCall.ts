@@ -36,6 +36,19 @@ const useAuthCall = () => {
     }
   };
 
+  const googleLogin = async (credential: string) => {
+  try {
+    const { data } = await axios.post(`${BASE_URL}auth/google`, {
+      credential,
+    });
+    dispatch(updateUserInfo(data));
+    navigate("/");
+    toast.success("Login successful");
+  } catch {
+    toast.error("Google login failed");
+  }
+};
+
   const signUp = async (userCredentials: SignUpCredentials) => {
     const { data } = await axios.post(`${BASE_URL}users`, userCredentials);
     dispatch(updateUserInfo(data));
@@ -70,7 +83,7 @@ const useAuthCall = () => {
     return data;
   };
 
-  return { signIn, signUp, signOut, updateUser };
+  return { signIn, googleLogin, signUp, signOut, updateUser };
 };
 
 export default useAuthCall;

@@ -4,10 +4,12 @@ import { signInSchema } from "../../lib/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useAuthCall from "../../hooks/useAuthCall";
+import { GoogleLogin } from "@react-oauth/google";
+import { toast } from "react-toastify";
 
 export default function SignInForm() {
   type SignInFormData = z.infer<typeof signInSchema>;
-  const { signIn } = useAuthCall();
+  const { signIn, googleLogin } = useAuthCall();
 
   const {
     register,
@@ -71,17 +73,18 @@ export default function SignInForm() {
           Signup
         </Link>
       </p>
-      <button
-        type="button"
-        className="w-full flex items-center gap-2 justify-center my-3 bg-white border border-gray-500/30 py-2.5 rounded-full text-gray-800"
-      >
-        <img
-          className="h-4 w-4"
-          src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleFavicon.png"
-          alt="googleFavicon"
+      <div className="flex justify-center my-3">
+        <GoogleLogin
+          onSuccess={(res) => {
+            if (res.credential) googleLogin(res.credential);
+          }}
+          onError={() => toast.error("Google login failed")}
+          theme="outline"
+          size="large"
+          text="signin_with"
+          width="384"
         />
-        Log in with Google
-      </button>
+      </div>
     </div>
   );
 }
